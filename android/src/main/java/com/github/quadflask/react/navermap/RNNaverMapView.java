@@ -2,6 +2,7 @@ package com.github.quadflask.react.navermap;
 
 import android.graphics.PointF;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -29,6 +30,7 @@ public class RNNaverMapView extends MapView implements OnMapReadyCallback, Naver
     private ThemedReactContext themedReactContext;
     private FusedLocationSource locationSource;
     private NaverMap naverMap;
+    private NaverMapSdk naverMapSdk;
     private ViewAttacherGroup attacherGroup;
     private long lastTouch = 0;
     private final List<RNNaverMapFeature<?>> features = new ArrayList<>();
@@ -38,6 +40,7 @@ public class RNNaverMapView extends MapView implements OnMapReadyCallback, Naver
         this.themedReactContext = themedReactContext;
         this.locationSource = locationSource;
         super.onCreate(instanceStateBundle);
+        naverMapSdk = NaverMapSdk.getInstance(appContext);
 //        super.onStart();
         getMapAsync(this);
 
@@ -68,6 +71,7 @@ public class RNNaverMapView extends MapView implements OnMapReadyCallback, Naver
                 lastTouch = System.currentTimeMillis();
             }
         });
+        naverMapSdk.flushCache(() -> Log.i("NaverMap", "Map Cache Clean"));
         onInitialized();
     }
 
