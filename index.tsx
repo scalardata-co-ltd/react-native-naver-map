@@ -120,6 +120,7 @@ export interface NaverMapViewProps {
     liteModeEnabled?: boolean;
     useTextureView?: boolean;
     children?: Element;
+    animateToCoordinate: (coord: Coord) => void;
 }
 
 export default class NaverMapView extends Component<NaverMapViewProps, {}> {
