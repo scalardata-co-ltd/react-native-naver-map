@@ -284,7 +284,7 @@ public class RNNaverMapViewContainer extends FrameLayout implements RNNaverMapVi
 
     @Override
     public View getFeatureAt(int index) {
-        if (mapView != null)
+        if (mapView != null && mapView.getFeatureCount() > 0)
             return mapView.getFeatureAt(index);
         return null;
     }
