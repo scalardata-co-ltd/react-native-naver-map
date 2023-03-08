@@ -37,6 +37,21 @@ export enum MapType {
     Terrain = 4,
 }
 
+export interface PointType {
+    center: Coord;
+    screen: {
+        width: number;
+        height: number;
+    }
+}
+
+export interface LatLngBounds {
+    bottomLeftCoord: Array<number>;
+    bottomRightCoord: Array<number>;
+    topLeftCoord: Array<number>;
+    topRightCoord: Array<number>;
+}
+
 export enum LayerGroup {
     LAYER_GROUP_BUILDING = 'building',
     LAYER_GROUP_TRANSIT = 'transit',
@@ -158,6 +173,10 @@ export default class NaverMapView extends Component<NaverMapViewProps, {}> {
     showsMyLocationButton = (show: boolean) => {
         this.dispatchViewManagerCommand('showsMyLocationButton', [show]);
     };
+
+    getPointLatLng = (point: PointType): Promise<LatLngBounds> => {
+        return NativeModules.RNNaverMapView.getPointLatLng(this.nodeHandle, point);
+    }
 
     private dispatchViewManagerCommand = (command: string, arg: any) => {
         return Platform.select({

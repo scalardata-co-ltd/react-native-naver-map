@@ -22,6 +22,19 @@ export declare enum MapType {
     Hybrid = 3,
     Terrain = 4
 }
+export interface PointType {
+  center: Coord;
+  screen: {
+    width: number;
+    height: number;
+  }
+}
+export interface LatLngBounds {
+  bottomLeftCoord: Array<number>;
+  bottomRightCoord: Array<number>;
+  topLeftCoord: Array<number>;
+  topRightCoord: Array<number>;
+}
 export declare enum LayerGroup {
     LAYER_GROUP_BUILDING = "building",
     LAYER_GROUP_TRANSIT = "transit",
@@ -121,6 +134,7 @@ export default class NaverMapView extends Component<NaverMapViewProps, {}> {
     setLocationTrackingMode: (mode: number) => void;
     setLayerGroupEnabled: (group: LayerGroup, enabled: boolean) => void;
     showsMyLocationButton: (show: boolean) => void;
+    getPointLatLng(point: PointType): Promise<LatLngBounds>;
     private dispatchViewManagerCommand;
     handleOnCameraChange: (event: React.SyntheticEvent<{}, {
         latitude: number;
