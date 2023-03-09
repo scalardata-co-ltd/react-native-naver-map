@@ -86,12 +86,25 @@ allprojects {
 > [example/App.js](https://github.com/QuadFlask/react-native-naver-map/blob/master/example/App.js) 
 
 ```tsx
-import NaverMapView, {Circle, Marker, Path, Polyline, Polygon} from "react-native-nmap";
+import NaverMapView, {Circle, Marker, Path, Polyline, Polygon, Coord} from "react-native-nmap";
 
 function MyMap() {
     const P0 = {latitude: 37.564362, longitude: 126.977011};
     const P1 = {latitude: 37.565051, longitude: 126.978567};
     const P2 = {latitude: 37.565383, longitude: 126.976292};
+    
+    // 아래는 getPointLatLng 사용을 위해 추가된 예제코드입니다.
+    const getScreenLatLng = async (location: Coord) => {
+      const {bottomLeftCoord, bottomRightCoord, topLeftCoord, topRightCoord} =
+        await nMapRef.current.getPointLatLng({
+          center: location,
+          screen: {
+            width: 50,
+            height: 50,
+          },
+        });
+      console.log(bottomLeftCoord, bottomRightCoord, topLeftCoord, topRightCoord);
+    };
 
     return <NaverMapView style={{width: '100%', height: '100%'}}
                          showsMyLocationButton={true}
@@ -100,7 +113,10 @@ function MyMap() {
                          onCameraChange={e => console.warn('onCameraChange', JSON.stringify(e))}
                          onMapClick={e => console.warn('onMapClick', JSON.stringify(e))}>
         <Marker coordinate={P0} onClick={() => console.warn('onClick! p0')}/>
-        <Marker coordinate={P1} pinColor="blue" onClick={() => console.warn('onClick! p1')}/>
+        <Marker coordinate={P1} pinColor="blue" onClick={async () => {
+          console.warn('onClick! p1');
+          await getScreenLatLng(P1);
+        }}/>
         <Marker coordinate={P2} pinColor="red" onClick={() => console.warn('onClick! p2')}/>
         <Path coordinates={[P0, P1]} onClick={() => console.warn('onClick! path')} width={10}/>
         <Polyline coordinates={[P1, P2]} onClick={() => console.warn('onClick! polyline')}/>
