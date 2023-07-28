@@ -1,12 +1,23 @@
 import React, {Component, SyntheticEvent} from 'react';
-import {findNodeHandle, Image, ImageSourcePropType, NativeModules, Platform, processColor, requireNativeComponent, StyleProp, UIManager, ViewStyle,} from 'react-native';
+import {
+    findNodeHandle,
+    Image,
+    ImageSourcePropType,
+    NativeModules,
+    Platform,
+    processColor,
+    requireNativeComponent,
+    StyleProp,
+    UIManager,
+    ViewStyle
+} from 'react-native';
 
 const RNNaverMapView = requireNativeComponent('RNNaverMapView');
 // @ts-ignore
 const RNNaverMapViewTexture = Platform.select({
     android: () => requireNativeComponent('RNNaverMapViewTexture'),
     ios: () => RNNaverMapView
-})();
+})!();
 const RNNaverMapMarker = requireNativeComponent('RNNaverMapMarker');
 const RNNaverMapPathOverlay = requireNativeComponent('RNNaverMapPathOverlay');
 const RNNaverMapPolylineOverlay = requireNativeComponent('RNNaverMapPolylineOverlay');
@@ -184,15 +195,14 @@ export default class NaverMapView extends Component<NaverMapViewProps, {}> {
         return Platform.select({
             // @ts-ignore
             android: () => UIManager.dispatchViewManagerCommand(
-                // @ts-ignore
-                this.nodeHandle,
+                this.nodeHandle || null,
                 // @ts-ignore
                 UIManager.getViewManagerConfig('RNNaverMapView').Commands[command],
                 arg,
             ),
             ios: () =>
                 NativeModules[`RNNaverMapView`][command](this.nodeHandle, ...arg),
-        })();
+        })!();
     };
 
     handleOnCameraChange = (event: SyntheticEvent<{}, {
@@ -359,7 +369,7 @@ export class Polygon extends Component<PolygonProps> {
                     interiorRings: this.props.holes,
                 }}
             />
-        })();
+        })!();
     }
 }
 
