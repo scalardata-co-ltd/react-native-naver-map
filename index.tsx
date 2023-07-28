@@ -408,7 +408,7 @@ function getImageUri(src?: ImageSourcePropType): string | null {
 
 function parseColor(color?: string | null): string | null | undefined | number {
     if (color && Platform.OS === 'ios')
-        //@ts-ignore: According to upgrade of react-native, processColor return type is changed to ProcessedColorValue which is not supported in "@types/react-native": "^0.57.51"
+        //@ts-ignore: According to upgrade of react-native, processColor return type is changed to ProcessedColorValue which was not supported in "@types/react-native": "^0.57.51"
         return processColor(color);
     return color;
 }
