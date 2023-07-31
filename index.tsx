@@ -1,12 +1,23 @@
 import React, {Component, SyntheticEvent} from 'react';
-import {findNodeHandle, Image, ImageSourcePropType, NativeModules, Platform, processColor, requireNativeComponent, StyleProp, UIManager, ViewStyle,} from 'react-native';
+import {
+    findNodeHandle,
+    Image,
+    ImageSourcePropType,
+    NativeModules,
+    Platform,
+    processColor,
+    requireNativeComponent,
+    StyleProp,
+    UIManager,
+    ViewStyle
+} from 'react-native';
 
 const RNNaverMapView = requireNativeComponent('RNNaverMapView');
 // @ts-ignore
 const RNNaverMapViewTexture = Platform.select({
     android: () => requireNativeComponent('RNNaverMapViewTexture'),
     ios: () => RNNaverMapView
-})();
+})!();
 const RNNaverMapMarker = requireNativeComponent('RNNaverMapMarker');
 const RNNaverMapPathOverlay = requireNativeComponent('RNNaverMapPathOverlay');
 const RNNaverMapPolylineOverlay = requireNativeComponent('RNNaverMapPolylineOverlay');
@@ -184,15 +195,14 @@ export default class NaverMapView extends Component<NaverMapViewProps, {}> {
         return Platform.select({
             // @ts-ignore
             android: () => UIManager.dispatchViewManagerCommand(
-                // @ts-ignore
-                this.nodeHandle,
+                this.nodeHandle || null,
                 // @ts-ignore
                 UIManager.getViewManagerConfig('RNNaverMapView').Commands[command],
                 arg,
             ),
             ios: () =>
                 NativeModules[`RNNaverMapView`][command](this.nodeHandle, ...arg),
-        })();
+        })!();
     };
 
     handleOnCameraChange = (event: SyntheticEvent<{}, {
@@ -359,7 +369,7 @@ export class Polygon extends Component<PolygonProps> {
                     interiorRings: this.props.holes,
                 }}
             />
-        })();
+        })!();
     }
 }
 
@@ -398,7 +408,7 @@ function getImageUri(src?: ImageSourcePropType): string | null {
 
 function parseColor(color?: string | null): string | null | undefined | number {
     if (color && Platform.OS === 'ios')
-        // @ts-ignore
+        //@ts-ignore: According to upgrade of react-native, processColor return type is changed to ProcessedColorValue which was not supported in "@types/react-native": "^0.57.51"
         return processColor(color);
     return color;
 }
