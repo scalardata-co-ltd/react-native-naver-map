@@ -133,8 +133,8 @@ static NSDictionary* toJson(NMGLatLng * _Nonnull latlng) {
 }
 
 - (void)mapView:(nonnull NMFMapView *)mapView regionWillChangeAnimated:(BOOL)animated byReason:(NSInteger)reason {
-  if (((RNNaverMapView*)self).onTouch != nil)
-    ((RNNaverMapView*)self).onTouch(@{
+  if (((RNNaverMapView*)self).onMove != nil)
+    ((RNNaverMapView*)self).onMove(@{
       @"animated": @(animated),
       @"reason": @(reason)
     });

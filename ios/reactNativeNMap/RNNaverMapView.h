@@ -22,7 +22,7 @@
 @property (nonatomic, weak) RCTBridge *bridge;
 @property (nonatomic, copy) RCTDirectEventBlock onInitialized;
 @property (nonatomic, copy) RCTDirectEventBlock onCameraChange;
-@property (nonatomic, copy) RCTDirectEventBlock onTouch;
+@property (nonatomic, copy) RCTDirectEventBlock onMove;
 @property (nonatomic, copy) RCTDirectEventBlock onMapClick;
 
 @property (nonatomic, assign) BOOL showsCompass;

@@ -316,7 +316,7 @@ RCT_EXPORT_METHOD(
 
 RCT_EXPORT_VIEW_PROPERTY(onInitialized, RCTDirectEventBlock);
 RCT_EXPORT_VIEW_PROPERTY(onCameraChange, RCTDirectEventBlock);
-RCT_EXPORT_VIEW_PROPERTY(onTouch, RCTDirectEventBlock);
+RCT_EXPORT_VIEW_PROPERTY(onMove, RCTDirectEventBlock);
 RCT_EXPORT_VIEW_PROPERTY(onMapClick, RCTDirectEventBlock);
 
 @end
