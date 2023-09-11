@@ -10,7 +10,7 @@ public interface RNNaverMapViewProps {
       "onInitialized",
       "onCameraChange",
       "onMapClick",
-      "onTouch"
+      "onMove"
   };
 
   void onStop();

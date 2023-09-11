@@ -1,10 +1,8 @@
-react-native-naver-map [![npm version](https://badge.fury.io/js/react-native-nmap.svg)](https://badge.fury.io/js/react-native-nmap)
------
+## react-native-naver-map [![npm version](https://badge.fury.io/js/react-native-nmap.svg)](https://badge.fury.io/js/react-native-nmap)
 
 네이버맵의 리액트 네이티브 브릿지입니다.
 
 ![](https://raw.githubusercontent.com/QuadFlask/react-native-naver-map/master/example/screenshot/screenshot.png)
-
 
 ## 설치
 
@@ -26,7 +24,6 @@ $ cd ios/ && pod install
 ```
 
 > ios의 경우 `git-lfs` 설치가 필요합니다. [참고](https://github.com/navermaps/ios-map-sdk#%EB%8C%80%EC%9A%A9%EB%9F%89-%ED%8C%8C%EC%9D%BC%EC%9D%84-%EB%B0%9B%EA%B8%B0-%EC%9C%84%ED%95%B4-git-lfs-%EC%84%A4%EC%B9%98%EA%B0%80-%ED%95%84%EC%9A%94%ED%95%A9%EB%8B%88%EB%8B%A4)
-
 
 ### 안드로이드 추가 설정
 
@@ -50,6 +47,7 @@ allprojects {
 ```
 
 `/android/app/src/AndroidManifest.xml`에 아래와 같이 추가하고 발급받은 클라이언트 아이디로 바꿔줍니다.
+
 ```xml
 <manifest>
     <application>
@@ -83,49 +81,87 @@ allprojects {
 
 ## 예제
 
-> [example/App.js](https://github.com/QuadFlask/react-native-naver-map/blob/master/example/App.js) 
+> [example/App.js](https://github.com/QuadFlask/react-native-naver-map/blob/master/example/App.js)
 
 ```tsx
-import NaverMapView, {Circle, Marker, Path, Polyline, Polygon, Coord} from "react-native-nmap";
+import NaverMapView, {
+  Circle,
+  Marker,
+  Path,
+  Polyline,
+  Polygon,
+  Coord,
+} from "react-native-nmap";
 
 function MyMap() {
-    const P0 = {latitude: 37.564362, longitude: 126.977011};
-    const P1 = {latitude: 37.565051, longitude: 126.978567};
-    const P2 = {latitude: 37.565383, longitude: 126.976292};
-    
-    // 아래는 getPointLatLng 사용을 위해 추가된 예제코드입니다.
-    const getScreenLatLng = async (location: Coord) => {
-      const {bottomLeftCoord, bottomRightCoord, topLeftCoord, topRightCoord} =
-        await nMapRef.current.getPointLatLng({
-          center: location,
-          screen: {
-            width: 50,
-            height: 50,
-          },
-        });
-      console.log(bottomLeftCoord, bottomRightCoord, topLeftCoord, topRightCoord);
-    };
+  const P0 = { latitude: 37.564362, longitude: 126.977011 };
+  const P1 = { latitude: 37.565051, longitude: 126.978567 };
+  const P2 = { latitude: 37.565383, longitude: 126.976292 };
 
-    return <NaverMapView style={{width: '100%', height: '100%'}}
-                         showsMyLocationButton={true}
-                         center={{...P0, zoom: 16}}
-                         onTouch={e => console.warn('onTouch', JSON.stringify(e.nativeEvent))}
-                         onCameraChange={e => console.warn('onCameraChange', JSON.stringify(e))}
-                         onMapClick={e => console.warn('onMapClick', JSON.stringify(e))}>
-        <Marker coordinate={P0} onClick={() => console.warn('onClick! p0')}/>
-        <Marker coordinate={P1} pinColor="blue" onClick={async () => {
-          console.warn('onClick! p1');
+  // 아래는 getPointLatLng 사용을 위해 추가된 예제코드입니다.
+  const getScreenLatLng = async (location: Coord) => {
+    const {
+      bottomLeftCoord,
+      bottomRightCoord,
+      topLeftCoord,
+      topRightCoord,
+    } = await nMapRef.current.getPointLatLng({
+      center: location,
+      screen: {
+        width: 50,
+        height: 50,
+      },
+    });
+    console.log(bottomLeftCoord, bottomRightCoord, topLeftCoord, topRightCoord);
+  };
+
+  return (
+    <NaverMapView
+      style={{ width: "100%", height: "100%" }}
+      showsMyLocationButton={true}
+      center={{ ...P0, zoom: 16 }}
+      onMove={(e) => console.warn("onMove", JSON.stringify(e.nativeEvent))}
+      onCameraChange={(e) => console.warn("onCameraChange", JSON.stringify(e))}
+      onMapClick={(e) => console.warn("onMapClick", JSON.stringify(e))}
+    >
+      <Marker coordinate={P0} onClick={() => console.warn("onClick! p0")} />
+      <Marker
+        coordinate={P1}
+        pinColor="blue"
+        onClick={async () => {
+          console.warn("onClick! p1");
           await getScreenLatLng(P1);
-        }}/>
-        <Marker coordinate={P2} pinColor="red" onClick={() => console.warn('onClick! p2')}/>
-        <Path coordinates={[P0, P1]} onClick={() => console.warn('onClick! path')} width={10}/>
-        <Polyline coordinates={[P1, P2]} onClick={() => console.warn('onClick! polyline')}/>
-        <Circle coordinate={P0} color={"rgba(255,0,0,0.3)"} radius={200} onClick={() => console.warn('onClick! circle')}/>
-        <Polygon coordinates={[P0, P1, P2]} color={`rgba(0, 0, 0, 0.5)`} onClick={() => console.warn('onClick! polygon')}/>
+        }}
+      />
+      <Marker
+        coordinate={P2}
+        pinColor="red"
+        onClick={() => console.warn("onClick! p2")}
+      />
+      <Path
+        coordinates={[P0, P1]}
+        onClick={() => console.warn("onClick! path")}
+        width={10}
+      />
+      <Polyline
+        coordinates={[P1, P2]}
+        onClick={() => console.warn("onClick! polyline")}
+      />
+      <Circle
+        coordinate={P0}
+        color={"rgba(255,0,0,0.3)"}
+        radius={200}
+        onClick={() => console.warn("onClick! circle")}
+      />
+      <Polygon
+        coordinates={[P0, P1, P2]}
+        color={`rgba(0, 0, 0, 0.5)`}
+        onClick={() => console.warn("onClick! polygon")}
+      />
     </NaverMapView>
+  );
 }
 ```
-
 
 ## 컴포넌트
 
@@ -135,22 +171,23 @@ function MyMap() {
 
 ```ts
 export interface Coord {
-    latitude: number;
-    longitude: number;
+  latitude: number;
+  longitude: number;
 }
 export interface Region extends Coord {
-    latitudeDelta: number;
-    longitudeDelta: number;
+  latitudeDelta: number;
+  longitudeDelta: number;
 }
 export interface Rect {
-    left?: number;
-    top?: number;
-    right?: number;
-    bottom?: number;
+  left?: number;
+  top?: number;
+  right?: number;
+  bottom?: number;
 }
 ```
 
 ### `NaverMapView`
+
 ```ts
 interface NaverMapViewProps {
     center?: Coord & {
@@ -177,7 +214,12 @@ interface NaverMapViewProps {
         latitude: number;
         longitude: number;
     }) => void;
-    onTouch?: () => void;
+    onMove?: (event:{
+        nativeEvent:{
+            reason:number,
+            animated:boolean
+        }
+    }) => void;
     showsMyLocationButton?: boolean;
     compass?: boolean;
     scaleBar?: boolean;
@@ -221,137 +263,164 @@ handleOnMapClick: (event: React.SyntheticEvent<{}, {
 ```
 
 ### `Marker`
+
 ```ts
 interface MarkerProps {
-    coordinate: Coord
-    anchor?: { x: number, y: number }
-    pinColor?: string
-    alpha?: number
-    rotation?: number
-    flat?: boolean
-    image?: ImageSourcePropType
-    onClick?: () => void
-    width?: number
-    height?: number
-    angle?: number
-    hidden?: boolean
-    zIndex?: number
-    iconPerspectiveEnabled?: boolean
-    isHideCollidedSymbols?: boolean
-    isHideCollidedMarkers?: boolean
-    isHideCollidedCaptions?: boolean;
-    isForceShowIcon?: boolean;
-    caption?: {
-        text?: string;
-        align?: Align;
-        textSize?: number;
-        color?: string;
-        haloColor?: string;
-        offset?: number;
-        requestedWidth?: number;
-        minZoom?: number;
-        maxZoom?: number;
-    };
-    subCaption?: {
-        text?: string;
-        textSize?: number;
-        color?: number;
-        haloColor?: number;
-        requestedWidth?: number;
-        minZoom?: number;
-        maxZoom?: number;
-    };
+  coordinate: Coord;
+  anchor?: { x: number; y: number };
+  pinColor?: string;
+  alpha?: number;
+  rotation?: number;
+  flat?: boolean;
+  image?: ImageSourcePropType;
+  onClick?: () => void;
+  width?: number;
+  height?: number;
+  angle?: number;
+  hidden?: boolean;
+  zIndex?: number;
+  iconPerspectiveEnabled?: boolean;
+  isHideCollidedSymbols?: boolean;
+  isHideCollidedMarkers?: boolean;
+  isHideCollidedCaptions?: boolean;
+  isForceShowIcon?: boolean;
+  caption?: {
+    text?: string;
+    align?: Align;
+    textSize?: number;
+    color?: string;
+    haloColor?: string;
+    offset?: number;
+    requestedWidth?: number;
+    minZoom?: number;
+    maxZoom?: number;
+  };
+  subCaption?: {
+    text?: string;
+    textSize?: number;
+    color?: number;
+    haloColor?: number;
+    requestedWidth?: number;
+    minZoom?: number;
+    maxZoom?: number;
+  };
 }
 ```
+
 > 안드로이드 플랫폼에서 마커내 커스텀 뷰를 지원합니다. `0.0.57`
+>
 > ```js
 > <Marker coordinate={P5} width={96} height={96}>
->     <View style={{backgroundColor: 'rgba(255,0,0,0.2)', borderRadius: 80}}>
->         <View style={{backgroundColor: 'rgba(0,0,255,0.3)', borderWidth: 2, borderColor: 'black', flexDirection: 'row'}}>
->             <Image source={require("./marker.png")} style={{
->                 width: 32, height: 32,
->                 backgroundColor: 'rgba(0,0,0,0.2)', resizeMode: 'stretch',
->                 borderWidth: 2, borderColor: 'black'}} fadeDuration={0}/>
->             <Text>Image</Text>
->         </View>
->         <ImageBackground source={require("./marker.png")} style={{width: 64, height: 64}}>
->             <Text>image background</Text>
->         </ImageBackground>
+>   <View style={{ backgroundColor: "rgba(255,0,0,0.2)", borderRadius: 80 }}>
+>     <View
+>       style={{
+>         backgroundColor: "rgba(0,0,255,0.3)",
+>         borderWidth: 2,
+>         borderColor: "black",
+>         flexDirection: "row",
+>       }}
+>     >
+>       <Image
+>         source={require("./marker.png")}
+>         style={{
+>           width: 32,
+>           height: 32,
+>           backgroundColor: "rgba(0,0,0,0.2)",
+>           resizeMode: "stretch",
+>           borderWidth: 2,
+>           borderColor: "black",
+>         }}
+>         fadeDuration={0}
+>       />
+>       <Text>Image</Text>
 >     </View>
-> </Marker> 
+>     <ImageBackground
+>       source={require("./marker.png")}
+>       style={{ width: 64, height: 64 }}
+>     >
+>       <Text>image background</Text>
+>     </ImageBackground>
+>   </View>
+> </Marker>
 > ```
 
 ### `Polyline`
+
 ```ts
 interface PolylineProps {
-    coordinates: Coord[]
-    strokeWidth?: number
-    strokeColor?: string
-    onClick?: () => void
+  coordinates: Coord[];
+  strokeWidth?: number;
+  strokeColor?: string;
+  onClick?: () => void;
 }
 ```
 
 ### `Path`
+
 ```ts
 interface PathProps {
-    coordinates: Coord[]
-    width?: number
-    color?: string
-    outlineWidth?: number
-    passedColor?: string
-    outlineColor?: string
-    passedOutlineColor?: string
-    pattern?: ImageSourcePropType
-    patternInterval?: number
-    onClick?: () => void
+  coordinates: Coord[];
+  width?: number;
+  color?: string;
+  outlineWidth?: number;
+  passedColor?: string;
+  outlineColor?: string;
+  passedOutlineColor?: string;
+  pattern?: ImageSourcePropType;
+  patternInterval?: number;
+  onClick?: () => void;
 }
 ```
 
 ### `Circle`
+
 ```ts
 export interface CircleProps {
-    coordinate: Coord[]
-    radius?: number;
-    color?: string;
-    outlineWidth?: number;
-    outlineColor?: string;
-    zIndex?: number;
-    onClick?: () => void
+  coordinate: Coord[];
+  radius?: number;
+  color?: string;
+  outlineWidth?: number;
+  outlineColor?: string;
+  zIndex?: number;
+  onClick?: () => void;
 }
 ```
 
 ### `Polygon`
+
 ```ts
 export interface PolygonProps {
-    coordinate: Coord[]
-    outlineWidth?: number;
-    outlineColor?: string
-    color?: string;
-    holes?: Coord[][];
-    onClick?: () => void
+  coordinate: Coord[];
+  outlineWidth?: number;
+  outlineColor?: string;
+  color?: string;
+  holes?: Coord[][];
+  onClick?: () => void;
 }
 ```
 
 ### `LayerGroup`
+
 ```ts
 export declare enum LayerGroup {
-    LAYER_GROUP_BUILDING = "building",
-    LAYER_GROUP_TRANSIT = "transit",
-    LAYER_GROUP_BICYCLE = "bike",
-    LAYER_GROUP_TRAFFIC = "ctt",
-    LAYER_GROUP_CADASTRAL = "landparcel",
-    LAYER_GROUP_MOUNTAIN = "mountain"
+  LAYER_GROUP_BUILDING = "building",
+  LAYER_GROUP_TRANSIT = "transit",
+  LAYER_GROUP_BICYCLE = "bike",
+  LAYER_GROUP_TRAFFIC = "ctt",
+  LAYER_GROUP_CADASTRAL = "landparcel",
+  LAYER_GROUP_MOUNTAIN = "mountain",
 }
 ```
 
 ### `getScreenLatLng`
+
 ```ts
 export interface PointType {
-    center: Coord;
-    screen: {
-        width: number;
-        height: number;
-    }
+  center: Coord;
+  screen: {
+    width: number;
+    height: number;
+  };
 }
 ```
 
