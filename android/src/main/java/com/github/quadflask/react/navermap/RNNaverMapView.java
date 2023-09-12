@@ -63,7 +63,10 @@ public class RNNaverMapView extends MapView implements OnMapReadyCallback, Naver
     param.putInt("reason", reason);
     param.putBoolean("animated", animated);
     emitEvent("onMove", param);
-    lastTouch = System.currentTimeMillis();
+
+    if (reason == -1 && System.currentTimeMillis() - lastTouch > 500) { // changed by user
+      lastTouch = System.currentTimeMillis();
+    }
 
     });
     naverMapSdk.flushCache(() -> Log.i("NaverMap", "Map Cache Clean"));
