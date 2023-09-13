@@ -58,13 +58,16 @@ public class RNNaverMapView extends MapView implements OnMapReadyCallback, Naver
     this.naverMap.setOnMapClickListener(this);
     this.naverMap.addOnCameraIdleListener(this);
     this.naverMap.addOnCameraChangeListener((reason, animated) -> {
-      if (reason == -1 && System.currentTimeMillis() - lastTouch > 500) { // changed by user
-        WritableMap param = Arguments.createMap();
-        param.putInt("reason", reason);
-        param.putBoolean("animated", animated);
-        emitEvent("onTouch", param);
-        lastTouch = System.currentTimeMillis();
-      }
+
+    WritableMap param = Arguments.createMap();
+    param.putInt("reason", reason);
+    param.putBoolean("animated", animated);
+    emitEvent("onMove", param);
+
+    if (reason == -1 && System.currentTimeMillis() - lastTouch > 500) { // changed by user
+      lastTouch = System.currentTimeMillis();
+    }
+
     });
     naverMapSdk.flushCache(() -> Log.i("NaverMap", "Map Cache Clean"));
     onInitialized();
