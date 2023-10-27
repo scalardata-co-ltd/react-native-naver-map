@@ -162,6 +162,10 @@ public class RNNaverMapMarker extends ClickableRNNaverMapFeature<Marker> impleme
     }
 
     public void setImage(String uri) {
+        if (uri == null) {
+            uri = "../../../assets/Markers/active.png";
+        }
+
         if (uri != null) {
             OverlayImage overlayImage = OverlayImages.get(uri);
             if (overlayImage != null) {
