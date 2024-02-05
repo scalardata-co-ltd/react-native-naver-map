@@ -12,7 +12,7 @@
 #import <NMapsMap/NMFNaverMapView.h>
 #import <NMapsMap/NMFCameraUpdate.h>
 #import <NMapsMap/NMFCameraPosition.h>
-#import <NMapsMap/NMGLatLng.h>
+#import <NMapsGeometry/NMGLatLng.h>
 #import <NMapsMap/NMFProjection.h>
 
 #import "RCTConvert+NMFMapView.h"
@@ -30,6 +30,7 @@ RCT_EXPORT_MODULE(RNNaverMapView)
 {
   RNNaverMapView *map = [[RNNaverMapView alloc] initWithFrame:CGRectMake(0, 0, 200, 300)];
   map.bridge = self.bridge;
+  [map.mapView addOptionDelegate:map];
   return map;
 }
 
@@ -318,5 +319,6 @@ RCT_EXPORT_VIEW_PROPERTY(onInitialized, RCTDirectEventBlock);
 RCT_EXPORT_VIEW_PROPERTY(onCameraChange, RCTDirectEventBlock);
 RCT_EXPORT_VIEW_PROPERTY(onMove, RCTDirectEventBlock);
 RCT_EXPORT_VIEW_PROPERTY(onMapClick, RCTDirectEventBlock);
+RCT_EXPORT_VIEW_PROPERTY(onChangePositionMode, RCTDirectEventBlock);
 
 @end

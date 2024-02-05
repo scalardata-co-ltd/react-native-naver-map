@@ -11,7 +11,7 @@
 #import <React/RCTBridge.h>
 #import <React/UIView+React.h>
 
-#import <NMapsMap/NMGLatLng.h>
+#import <NMapsGeometry/NMGLatLng.h>
 #import <NMapsMap/NMFMarker.h>
 #import <NMapsMap/NMFCameraUpdate.h>
 #import <NMapsMap/NMFCameraPosition.h>
@@ -140,6 +140,15 @@ static NSDictionary* toJson(NMGLatLng * _Nonnull latlng) {
     });
 }
 
+
+- (void)mapViewOptionChanged:(NMFMapView *)mapView {
+    int num = [[[NSNumber alloc] initWithInt:mapView.positionMode] intValue];
+
+    if (((RNNaverMapView*)self).onChangePositionMode != nil)
+      ((RNNaverMapView*)self).onChangePositionMode(@{
+        @"positionMode"        : @(num),
+      });
+}
 
 
 @end

@@ -89,8 +89,13 @@ export interface NaverMapViewProps {
     }) => void;
     onMove?: (event:{
         nativeEvent:{
-            reason:number, 
+            reason:number,
             animated:boolean
+        }
+    }) => void;
+    onChangeLocationTrackingMode?: (event: {
+        nativeEvent: {
+            positionMode: TrackingMode;
         }
     }) => void;
     showsMyLocationButton?: boolean;

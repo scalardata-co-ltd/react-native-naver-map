@@ -10,7 +10,7 @@
 #import <React/RCTBridge.h>
 
 #import <NMapsMap/NMFNaverMapView.h>
-#import <NMapsMap/NMGLatLng.h>
+#import <NMapsGeometry/NMGLatLng.h>ng.h>
 #import <NMapsMap/NMFMarker.h>
 #import <NMapsMap/NMFCameraUpdate.h>
 #import <NMapsMap/NMFMapViewDelegate.h>
@@ -24,6 +24,7 @@
 @property (nonatomic, copy) RCTDirectEventBlock onCameraChange;
 @property (nonatomic, copy) RCTDirectEventBlock onMove;
 @property (nonatomic, copy) RCTDirectEventBlock onMapClick;
+@property (nonatomic, copy) RCTDirectEventBlock onChangePositionMode;
 
 @property (nonatomic, assign) BOOL showsCompass;
 @property (nonatomic, assign) BOOL zoomEnabled;
