@@ -57,6 +57,7 @@ public class RNNaverMapView extends MapView implements OnMapReadyCallback, Naver
     this.naverMap.setLocationSource(locationSource);
     this.naverMap.setOnMapClickListener(this);
     this.naverMap.addOnCameraIdleListener(this);
+    this.naverMap.addOnOptionChangeListener(this::onOptionChange);
     this.naverMap.addOnCameraChangeListener((reason, animated) -> {
 
     WritableMap param = Arguments.createMap();
@@ -321,6 +322,14 @@ public class RNNaverMapView extends MapView implements OnMapReadyCallback, Naver
     Projection projection = naverMap.getProjection();
     PointF point = new PointF(x, y);
     return projection.fromScreenLocation(point);
+  }
+
+  public void onOptionChange() {
+    LocationTrackingMode trackingMode = naverMap.getLocationTrackingMode();
+
+    WritableMap param = Arguments.createMap();
+    param.putInt("positionMode", trackingMode.ordinal());
+    emitEvent("onChangeLocationTrackingMode", param);
   }
 
   private void emitEvent(String eventName, WritableMap param) {
