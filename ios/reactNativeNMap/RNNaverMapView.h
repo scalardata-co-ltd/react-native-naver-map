@@ -10,7 +10,7 @@
 #import <React/RCTBridge.h>
 
 #import <NMapsMap/NMFNaverMapView.h>
-#import <NMapsGeometry/NMGLatLng.h>ng.h>
+#import <NMapsGeometry/NMGLatLng.h>
 #import <NMapsMap/NMFMarker.h>
 #import <NMapsMap/NMFCameraUpdate.h>
 #import <NMapsMap/NMFMapViewDelegate.h>
