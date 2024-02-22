@@ -24,7 +24,7 @@
 @property (nonatomic, copy) RCTDirectEventBlock onCameraChange;
 @property (nonatomic, copy) RCTDirectEventBlock onMove;
 @property (nonatomic, copy) RCTDirectEventBlock onMapClick;
-@property (nonatomic, copy) RCTDirectEventBlock onChangePositionMode;
+@property (nonatomic, copy) RCTDirectEventBlock onChangeLocationTrackingMode;
 
 @property (nonatomic, assign) BOOL showsCompass;
 @property (nonatomic, assign) BOOL zoomEnabled;

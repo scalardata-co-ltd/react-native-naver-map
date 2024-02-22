@@ -106,6 +106,11 @@ export interface NaverMapViewProps {
             animated:boolean
         }
     }) => void;
+    onChangeLocationTrackingMode?: (event: {
+        nativeEvent: {
+            positionMode: TrackingMode;
+        }
+    }) => void;
     showsMyLocationButton?: boolean;
     compass?: boolean;
     scaleBar?: boolean;
