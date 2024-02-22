@@ -135,7 +135,7 @@ export interface NaverMapViewProps {
             animated:boolean
         }
     }) => void;
-    onChangeLocationTrackingMode?: (event: {
+    onChangePositionMode?: (event: {
         nativeEvent: {
             positionMode: TrackingMode;
         }
