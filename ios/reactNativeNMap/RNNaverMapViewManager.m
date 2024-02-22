@@ -319,6 +319,6 @@ RCT_EXPORT_VIEW_PROPERTY(onInitialized, RCTDirectEventBlock);
 RCT_EXPORT_VIEW_PROPERTY(onCameraChange, RCTDirectEventBlock);
 RCT_EXPORT_VIEW_PROPERTY(onMove, RCTDirectEventBlock);
 RCT_EXPORT_VIEW_PROPERTY(onMapClick, RCTDirectEventBlock);
-RCT_EXPORT_VIEW_PROPERTY(onChangePositionMode, RCTDirectEventBlock);
+RCT_EXPORT_VIEW_PROPERTY(onChangeLocationTrackingMode, RCTDirectEventBlock);
 
 @end
