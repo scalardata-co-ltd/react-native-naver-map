@@ -144,8 +144,8 @@ static NSDictionary* toJson(NMGLatLng * _Nonnull latlng) {
 - (void)mapViewOptionChanged:(NMFMapView *)mapView {
     int num = [[[NSNumber alloc] initWithInt:mapView.positionMode] intValue];
 
-    if (((RNNaverMapView*)self).onChangePositionMode != nil)
-      ((RNNaverMapView*)self).onChangePositionMode(@{
+    if (((RNNaverMapView*)self).onChangeLocationTrackingMode != nil)
+      ((RNNaverMapView*)self).onChangeLocationTrackingMode(@{
         @"positionMode"        : @(num),
       });
 }
