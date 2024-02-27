@@ -325,6 +325,9 @@ public class RNNaverMapView extends MapView implements OnMapReadyCallback, Naver
   }
 
   public void onOptionChange() {
+    if (naverMap == null) {
+      return null;
+    }
     LocationTrackingMode trackingMode = naverMap.getLocationTrackingMode();
 
     WritableMap param = Arguments.createMap();
