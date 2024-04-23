@@ -11,7 +11,7 @@ buildscript {
 }
 
 android {
-    compileSdkVersion rootProject.ext.hasProperty('compileSdkVersion') ? rootProject.ext.compileSdkVersion : 30
+    compileSdkVersion 30
     buildToolsVersion rootProject.ext.hasProperty('buildToolsVersion') ? rootProject.ext.buildToolsVersion : "28.0.3"
 
     defaultConfig {
