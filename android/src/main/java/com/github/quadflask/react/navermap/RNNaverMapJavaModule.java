@@ -29,8 +29,8 @@ public class RNNaverMapJavaModule extends ReactContextBaseJavaModule {
     double height = screen.getDouble("height") * 4;
 
     final LatLng centerCoord = new LatLng(
-        center.hasKey("latitude") ? Double.parseDouble(center.getString("latitude")) : 0.0,
-        center.hasKey("longitude") ? Double.parseDouble(center.getString("longitude")) : 0.0
+        center.hasKey("latitude") ? center.getDouble("latitude") : 0.0,
+        center.hasKey("longitude") ? center.getDouble("longitude") : 0.0
     );
 
     uiManager.addUIBlock(nativeViewHierarchyManager -> {
