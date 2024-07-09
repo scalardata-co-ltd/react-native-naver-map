@@ -148,6 +148,7 @@ export interface NaverMapViewProps {
     buildingHeight?: number;
     minZoomLevel?: number;
     maxZoomLevel?: number;
+    symbolScale?: number;
     nightMode?: boolean;
     scrollGesturesEnabled?: boolean;
     zoomGesturesEnabled?: boolean;
