@@ -227,6 +227,7 @@ interface NaverMapViewProps {
     mapType?: MapType;
     minZoomLevel?: number;
     maxZoomLevel?: number;
+    symbolScale?: number;
     buildingHeight?: number;
     nightMode?: boolean;
     scrollGesturesEnabled?: boolean;
