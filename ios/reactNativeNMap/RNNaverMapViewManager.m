@@ -114,8 +114,11 @@ RCT_CUSTOM_VIEW_PROPERTY(maxZoomLevel, NSNumber*, RNNaverMapView)
 
 RCT_CUSTOM_VIEW_PROPERTY(symbolScale, NSNumber*, RNNaverMapView)
 {
-  if (json == nil) view.mapView.symbolScale = 1;
-  view.mapView.symbolScale = [json floatValue];
+  if (json == nil) {
+    view.mapView.symbolScale = 1;
+  } else {
+    view.mapView.symbolScale = [json floatValue];
+  }
 }
 
 RCT_CUSTOM_VIEW_PROPERTY(scrollGesturesEnabled, BOOL, RNNaverMapView)
