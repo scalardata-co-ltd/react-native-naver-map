@@ -240,6 +240,7 @@ export default class NaverMapView extends Component<PropsWithChildren<NaverMapVi
             logoMargin,
             nightMode,
             useTextureView,
+            symbolScale,
         } = this.props;
 
         const ViewClass = useTextureView ? RNNaverMapViewTexture : RNNaverMapView;
@@ -256,6 +257,7 @@ export default class NaverMapView extends Component<PropsWithChildren<NaverMapVi
             tilt={tilt}
             bearing={bearing}
             nightMode={nightMode}
+            symbolScale={symbolScale ? symbolScale > 2 ? 2 : symbolScale : 1}
             onCameraChange={this.handleOnCameraChange}
             onMapClick={this.handleOnMapClick}
         />
