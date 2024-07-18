@@ -254,8 +254,8 @@ export default class NaverMapView extends Component<PropsWithChildren<NaverMapVi
                 return 2;
             }
 
-            if (symbolScale < 1) {
-                return 1;
+            if (symbolScale < 0) {
+                return 0
             }
 
             return symbolScale;
