@@ -245,7 +245,7 @@ export default class NaverMapView extends Component<PropsWithChildren<NaverMapVi
 
         const ViewClass = useTextureView ? RNNaverMapViewTexture : RNNaverMapView;
 
-        const symbolScaleValue = () => {
+        const normalizeSymbolScale = () => {
             if (!symbolScale) {
                 return 1;
             }
@@ -273,7 +273,7 @@ export default class NaverMapView extends Component<PropsWithChildren<NaverMapVi
             tilt={tilt}
             bearing={bearing}
             nightMode={nightMode}
-            symbolScale={symbolScaleValue()}
+            symbolScale={normalizeSymbolScale}
             onCameraChange={this.handleOnCameraChange}
             onMapClick={this.handleOnMapClick}
         />
