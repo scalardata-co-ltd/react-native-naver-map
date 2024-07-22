@@ -182,6 +182,11 @@ public class RNNaverMapView extends MapView implements OnMapReadyCallback, Naver
   }
 
   @Override
+  public void setSymbolScale(float symbolScale) {
+    getMapAsync(e -> naverMap.setSymbolScale(symbolScale));
+  }
+
+  @Override
   public void setBuildingHeight(float height) {
     getMapAsync(e -> naverMap.setBuildingHeight(height));
   }

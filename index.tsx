@@ -148,6 +148,7 @@ export interface NaverMapViewProps {
     buildingHeight?: number;
     minZoomLevel?: number;
     maxZoomLevel?: number;
+    symbolScale?: number;
     nightMode?: boolean;
     scrollGesturesEnabled?: boolean;
     zoomGesturesEnabled?: boolean;
@@ -239,9 +240,26 @@ export default class NaverMapView extends Component<PropsWithChildren<NaverMapVi
             logoMargin,
             nightMode,
             useTextureView,
+            symbolScale,
         } = this.props;
 
         const ViewClass = useTextureView ? RNNaverMapViewTexture : RNNaverMapView;
+
+        const normalizeSymbolScale = () => {
+            if (!symbolScale) {
+                return 1;
+            }
+
+            if (symbolScale > 2) {
+                return 2;
+            }
+
+            if (symbolScale < 0) {
+                return 0
+            }
+
+            return symbolScale;
+        };
 
         return <ViewClass
             // @ts-ignore
@@ -255,6 +273,7 @@ export default class NaverMapView extends Component<PropsWithChildren<NaverMapVi
             tilt={tilt}
             bearing={bearing}
             nightMode={nightMode}
+            symbolScale={normalizeSymbolScale()}
             onCameraChange={this.handleOnCameraChange}
             onMapClick={this.handleOnMapClick}
         />

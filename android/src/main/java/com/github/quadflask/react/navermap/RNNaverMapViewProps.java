@@ -50,6 +50,8 @@ public interface RNNaverMapViewProps {
 
   void setMaxZoom(float maxZoomLevel);
 
+  void setSymbolScale(float symbolScale);
+
   void setLayerGroupEnabled(String layerGroup, boolean enable);
 
   void setNightModeEnabled(boolean enable);

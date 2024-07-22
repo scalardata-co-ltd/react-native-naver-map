@@ -121,6 +121,11 @@ public class RNNaverMapViewManager extends ViewGroupManager<RNNaverMapViewContai
         mapView.setMaxZoom(maxZoomLevel);
     }
 
+    @ReactProp(name = "symbolScale", defaultFloat = 1.0f)
+    public void setSymbolScale(RNNaverMapViewContainer mapView, float symbolScale) {
+        mapView.setSymbolScale(symbolScale);
+    }
+
     @ReactProp(name = "buildingHeight", defaultFloat = 1.0f)
     public void setBuildingHeight(RNNaverMapViewContainer mapView, float height) {
         mapView.setBuildingHeight(height);

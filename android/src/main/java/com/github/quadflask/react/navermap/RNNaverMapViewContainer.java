@@ -189,6 +189,12 @@ public class RNNaverMapViewContainer extends FrameLayout implements RNNaverMapVi
   }
 
   @Override
+  public void setSymbolScale(float symbolScale) {
+    if (mapView != null)
+      mapView.setSymbolScale(symbolScale);
+  }
+
+  @Override
   public void setBuildingHeight(float height) {
     if (mapView != null)
       mapView.setBuildingHeight(height);
