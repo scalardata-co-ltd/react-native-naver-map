@@ -273,7 +273,7 @@ export default class NaverMapView extends Component<PropsWithChildren<NaverMapVi
             tilt={tilt}
             bearing={bearing}
             nightMode={nightMode}
-            symbolScale={normalizeSymbolScale}
+            symbolScale={normalizeSymbolScale()}
             onCameraChange={this.handleOnCameraChange}
             onMapClick={this.handleOnMapClick}
         />
