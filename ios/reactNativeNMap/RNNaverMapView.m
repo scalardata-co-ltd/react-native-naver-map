@@ -29,6 +29,7 @@
 @implementation RNNaverMapView
 {
   NSMutableArray<UIView *> *_reactSubviews;
+  BOOL _initialCameraSet;
 }
 
 - (nonnull instancetype)initWithFrame:(CGRect)frame
@@ -36,7 +37,52 @@
   if ((self = [super initWithFrame:frame])) {
     _reactSubviews = [NSMutableArray new];
   }
+
+  _initialCameraSet = NO;
+
   return self;
+}
+
+- (void)setCamera:(NSDictionary*)camera {
+    NMFCameraPosition* prev = self.mapView.cameraPosition;
+    double latitude = camera[@"latitude"] ? [camera[@"latitude"] doubleValue] : prev.target.lat;
+    double longitude = camera[@"longitude"] ? [camera[@"longitude"] doubleValue] : prev.target.lng;
+    double zoom = camera[@"zoom"] ? [camera[@"zoom"] doubleValue] : prev.zoom;
+    double tilt = camera[@"tilt"] ? [camera[@"tilt"] doubleValue] : prev.tilt;
+    double heading = camera[@"heading"] ? [camera[@"heading"] doubleValue] : prev.heading;
+
+    NMGLatLng* point = NMGLatLngMake(latitude, longitude);
+    NMFCameraPosition* cameraPosition = [NMFCameraPosition cameraPosition:point
+                                                                       zoom:zoom
+                                                                       tilt:tilt
+                                                                    heading:heading];
+    NMFCameraUpdate* update = [NMFCameraUpdate cameraUpdateWithPosition:cameraPosition];
+
+    [self.mapView moveCamera:update];
+}
+
+static const double INVALID_NUMBER = -123123123.0;
+static const double EPSILON = 1.0;
+
+static inline BOOL isValidCustomNumber(NSNumber* value) {
+    if (!value || [value isKindOfClass:[NSNull class]]) {
+        return NO;
+    }
+    double doubleValue = [value doubleValue];
+    if (isnan(doubleValue) || isinf(doubleValue)) {
+        return NO;
+    }
+    return fabs(doubleValue - INVALID_NUMBER) > EPSILON;
+}
+
+- (void)setInitialCamera:(NSDictionary*)initialCamera {
+  if (!_initialCameraSet) {
+    _initialCameraSet = YES;
+
+    if (isValidCustomNumber(initialCamera[@"latitude"])) {
+      [self setCamera:initialCamera];
+    }
+  }
 }
 
 - (void)insertReactSubview:(id<RCTComponent>)subview atIndex:(NSInteger)atIndex {
