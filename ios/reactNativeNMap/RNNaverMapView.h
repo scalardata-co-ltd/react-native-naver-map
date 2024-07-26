@@ -32,7 +32,6 @@
 @property (nonatomic, assign) BOOL showsCompass;
 @property (nonatomic, assign) BOOL zoomEnabled;
 @property (nonatomic, assign) BOOL showsMyLocationButton;
-@property(nonatomic, copy) NSDictionary* camera;
 @property (nonatomic, strong) NSTimer *debounceTimer;
 
 - (void)debounceApplyPendingCamera;
