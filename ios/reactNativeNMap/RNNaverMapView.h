@@ -35,7 +35,6 @@
 @property(nonatomic, copy) NSDictionary* camera;
 @property (nonatomic, strong) NSTimer *debounceTimer;
 
-- (void)mapViewIdle;
 - (void)debounceApplyPendingCamera;
 - (void)applyPendingCameraIfNeeded;
 
