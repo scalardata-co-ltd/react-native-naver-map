@@ -51,8 +51,6 @@
     NMGLatLng* target = [NMGLatLng latLngWithLat:latitude lng:longitude];
     NMFCameraPosition* cameraPosition = [NMFCameraPosition cameraPosition:target zoom:zoom];
     NMFCameraUpdate* cameraUpdate = [NMFCameraUpdate cameraUpdateWithPosition:cameraPosition];
-    cameraUpdate.animation = NMFCameraUpdateAnimationEaseIn;
-    cameraUpdate.animationDuration = 0.5;
 
     [self.mapView moveCamera:cameraUpdate];
     _initialCameraSet = YES;
