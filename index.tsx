@@ -49,14 +49,6 @@ export enum MapType {
     Terrain = 4,
 }
 
-type Camera = {
-    latitude: number;
-    longitude: number;
-    zoom?: number;
-    tilt?: number;
-    bearing?: number;
-};
-
 export interface PointType {
     center: Coord;
     screen: {
@@ -157,7 +149,6 @@ export interface NaverMapViewProps {
     minZoomLevel?: number;
     maxZoomLevel?: number;
     symbolScale?: number;
-    initialCamera?: Camera;
     nightMode?: boolean;
     scrollGesturesEnabled?: boolean;
     zoomGesturesEnabled?: boolean;
@@ -250,7 +241,6 @@ export default class NaverMapView extends Component<PropsWithChildren<NaverMapVi
             nightMode,
             useTextureView,
             symbolScale,
-            initialCamera,
         } = this.props;
 
         const ViewClass = useTextureView ? RNNaverMapViewTexture : RNNaverMapView;
@@ -283,7 +273,6 @@ export default class NaverMapView extends Component<PropsWithChildren<NaverMapVi
             tilt={tilt}
             bearing={bearing}
             nightMode={nightMode}
-            initialCamera={initialCamera}
             symbolScale={normalizeSymbolScale()}
             onCameraChange={this.handleOnCameraChange}
             onMapClick={this.handleOnMapClick}

@@ -38,51 +38,39 @@
     _reactSubviews = [NSMutableArray new];
   }
 
-  _initialCameraSet = NO;
-
   return self;
 }
+- (void)applyPendingCameraIfNeeded {
+  if (!_initialCameraSet && self.mapView.frame.size.width > 0 && self.mapView.frame.size.height > 0) {
+    NMFCameraPosition *prev = self.mapView.cameraPosition;
 
-- (void)setCamera:(NSDictionary*)camera {
-    NMFCameraPosition* prev = self.mapView.cameraPosition;
-    double latitude = camera[@"latitude"] ? [camera[@"latitude"] doubleValue] : prev.target.lat;
-    double longitude = camera[@"longitude"] ? [camera[@"longitude"] doubleValue] : prev.target.lng;
-    double zoom = camera[@"zoom"] ? [camera[@"zoom"] doubleValue] : prev.zoom;
-    double tilt = camera[@"tilt"] ? [camera[@"tilt"] doubleValue] : prev.tilt;
-    double heading = camera[@"heading"] ? [camera[@"heading"] doubleValue] : prev.heading;
+    double latitude = prev.target.lat;
+    double longitude = prev.target.lng;
+    double zoom = 14.5;
 
-    NMGLatLng* point = NMGLatLngMake(latitude, longitude);
-    NMFCameraPosition* cameraPosition = [NMFCameraPosition cameraPosition:point
-                                                                       zoom:zoom
-                                                                       tilt:tilt
-                                                                    heading:heading];
-    NMFCameraUpdate* update = [NMFCameraUpdate cameraUpdateWithPosition:cameraPosition];
+    NMGLatLng* target = [NMGLatLng latLngWithLat:latitude lng:longitude];
+    NMFCameraPosition* cameraPosition = [NMFCameraPosition cameraPosition:target zoom:zoom];
+    NMFCameraUpdate* cameraUpdate = [NMFCameraUpdate cameraUpdateWithPosition:cameraPosition];
+    cameraUpdate.animation = NMFCameraUpdateAnimationEaseIn;
+    cameraUpdate.animationDuration = 0.5;
 
-    [self.mapView moveCamera:update];
-}
-
-static const double INVALID_NUMBER = -123123123.0;
-static const double EPSILON = 1.0;
-
-static inline BOOL isValidCustomNumber(NSNumber* value) {
-    if (!value || [value isKindOfClass:[NSNull class]]) {
-        return NO;
-    }
-    double doubleValue = [value doubleValue];
-    if (isnan(doubleValue) || isinf(doubleValue)) {
-        return NO;
-    }
-    return fabs(doubleValue - INVALID_NUMBER) > EPSILON;
-}
-
-- (void)setInitialCamera:(NSDictionary*)initialCamera {
-  if (!_initialCameraSet) {
+    [self.mapView moveCamera:cameraUpdate];
     _initialCameraSet = YES;
-
-    if (isValidCustomNumber(initialCamera[@"latitude"])) {
-      [self setCamera:initialCamera];
-    }
   }
+}
+
+- (void)prepareForReuse {
+    _initialCameraSet = NO;
+    [self applyPendingCameraIfNeeded];
+}
+
+- (void)debounceApplyPendingCamera {
+    [self.debounceTimer invalidate];
+    self.debounceTimer = [NSTimer scheduledTimerWithTimeInterval:0.3
+                                                          target:self
+                                                        selector:@selector(applyPendingCameraIfNeeded)
+                                                        userInfo:nil
+                                                         repeats:NO];
 }
 
 - (void)insertReactSubview:(id<RCTComponent>)subview atIndex:(NSInteger)atIndex {
@@ -144,14 +132,17 @@ static inline BOOL isValidCustomNumber(NSNumber* value) {
 }
 
 - (void)mapViewIdle:(nonnull NMFMapView *)mapView {
-  if (((RNNaverMapView*)self).onCameraChange != nil)
-    ((RNNaverMapView*)self).onCameraChange(@{
-      @"latitude"      : @(mapView.cameraPosition.target.lat),
-      @"longitude"     : @(mapView.cameraPosition.target.lng),
-      @"zoom"          : @(mapView.cameraPosition.zoom),
-      @"contentRegion" : pointsToJson(mapView.contentRegion.exteriorRing.points),
-      @"coveringRegion": pointsToJson(mapView.coveringRegion.exteriorRing.points),
-    });
+    [self debounceApplyPendingCamera];
+
+    if (((RNNaverMapView*)self).onCameraChange != nil) {
+        ((RNNaverMapView*)self).onCameraChange(@{
+            @"latitude"      : @(mapView.cameraPosition.target.lat),
+            @"longitude"     : @(mapView.cameraPosition.target.lng),
+            @"zoom"          : @(mapView.cameraPosition.zoom),
+            @"contentRegion" : pointsToJson(mapView.contentRegion.exteriorRing.points),
+            @"coveringRegion": pointsToJson(mapView.coveringRegion.exteriorRing.points),
+        });
+    }
 }
 
 static NSArray* pointsToJson(NSArray<NMGLatLng*> *points) {
@@ -178,6 +169,10 @@ static NSDictionary* toJson(NMGLatLng * _Nonnull latlng) {
     });
 }
 
+- (void)dealloc {
+    [self.debounceTimer invalidate];
+}
+
 - (void)mapView:(nonnull NMFMapView *)mapView regionWillChangeAnimated:(BOOL)animated byReason:(NSInteger)reason {
   if (((RNNaverMapView*)self).onMove != nil)
     ((RNNaverMapView*)self).onMove(@{
@@ -191,10 +186,9 @@ static NSDictionary* toJson(NMGLatLng * _Nonnull latlng) {
     int num = [[[NSNumber alloc] initWithInt:mapView.positionMode] intValue];
 
     if (((RNNaverMapView*)self).onChangeLocationTrackingMode != nil)
-      ((RNNaverMapView*)self).onChangeLocationTrackingMode(@{
-        @"positionMode"        : @(num),
-      });
+        ((RNNaverMapView*)self).onChangeLocationTrackingMode(@{
+            @"positionMode"        : @(num),
+        });
 }
-
 
 @end

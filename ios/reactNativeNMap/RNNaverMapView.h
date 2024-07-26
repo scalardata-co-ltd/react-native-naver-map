@@ -14,10 +14,13 @@
 #import <NMapsMap/NMFMarker.h>
 #import <NMapsMap/NMFCameraUpdate.h>
 #import <NMapsMap/NMFMapViewDelegate.h>
+#import <NMapsMap/NMFMapViewTouchDelegate.h>
+#import <NMapsMap/NMFMapViewOptionDelegate.h>
+#import <NMapsMap/NMFMapViewCameraDelegate.h>
 
 #import "RCTConvert+NMFMapView.h"
 
-@interface RNNaverMapView : NMFNaverMapView <NMFMapViewDelegate>
+@interface RNNaverMapView : NMFNaverMapView <NMFMapViewCameraDelegate, NMFMapViewOptionDelegate, NMFMapViewTouchDelegate>
 
 @property (nonatomic, weak) RCTBridge *bridge;
 @property (nonatomic, copy) RCTDirectEventBlock onInitialized;
@@ -30,6 +33,10 @@
 @property (nonatomic, assign) BOOL zoomEnabled;
 @property (nonatomic, assign) BOOL showsMyLocationButton;
 @property(nonatomic, copy) NSDictionary* camera;
-@property(nonatomic, copy) NSDictionary* initialCamera;
+@property (nonatomic, strong) NSTimer *debounceTimer;
+
+- (void)mapViewIdle;
+- (void)debounceApplyPendingCamera;
+- (void)applyPendingCameraIfNeeded;
 
 @end
