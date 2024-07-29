@@ -36,6 +36,16 @@
   if ((self = [super initWithFrame:frame])) {
     _reactSubviews = [NSMutableArray new];
   }
+
+  NMFCameraPosition *prev = self.mapView.cameraPosition;
+
+  double zoom = 14.5;
+
+  NMFCameraPosition* cameraPosition = [NMFCameraPosition cameraPosition:prev.target zoom:zoom];
+  NMFCameraUpdate* cameraUpdate = [NMFCameraUpdate cameraUpdateWithPosition:cameraPosition];
+
+  [self.mapView moveCamera:cameraUpdate];
+
   return self;
 }
 
