@@ -37,29 +37,28 @@
   if ((self = [super initWithFrame:frame])) {
     _reactSubviews = [NSMutableArray new];
   }
+  _initialCameraSet = NO;
 
   return self;
 }
 - (void)applyPendingCameraIfNeeded {
-  if (!_initialCameraSet && self.mapView.frame.size.width > 0 && self.mapView.frame.size.height > 0) {
-    NMFCameraPosition *prev = self.mapView.cameraPosition;
-
-    double latitude = prev.target.lat;
-    double longitude = prev.target.lng;
-    double zoom = 14.5;
-
-    NMGLatLng* target = [NMGLatLng latLngWithLat:latitude lng:longitude];
-    NMFCameraPosition* cameraPosition = [NMFCameraPosition cameraPosition:target zoom:zoom];
-    NMFCameraUpdate* cameraUpdate = [NMFCameraUpdate cameraUpdateWithPosition:cameraPosition];
-
-    [self.mapView moveCamera:cameraUpdate];
-    _initialCameraSet = YES;
+  if (_initialCameraSet || self.mapView.frame.size.width <= 0 || self.mapView.frame.size.height <= 0) {
+    return;
   }
-}
 
-- (void)prepareForReuse {
-    _initialCameraSet = NO;
-    [self applyPendingCameraIfNeeded];
+  NMFCameraPosition *prev = self.mapView.cameraPosition;
+
+  double latitude = prev.target.lat;
+  double longitude = prev.target.lng;
+  double zoom = 14.5;
+
+  NMGLatLng* target = [NMGLatLng latLngWithLat:latitude lng:longitude];
+  NMFCameraPosition* cameraPosition = [NMFCameraPosition cameraPosition:target zoom:zoom];
+  NMFCameraUpdate* cameraUpdate = [NMFCameraUpdate cameraUpdateWithPosition:cameraPosition];
+
+  [self.mapView moveCamera:cameraUpdate];
+  _initialCameraSet = YES;
+
 }
 
 - (void)debounceApplyPendingCamera {
