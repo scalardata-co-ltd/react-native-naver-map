@@ -14,13 +14,10 @@
 #import <NMapsMap/NMFMarker.h>
 #import <NMapsMap/NMFCameraUpdate.h>
 #import <NMapsMap/NMFMapViewDelegate.h>
-#import <NMapsMap/NMFMapViewTouchDelegate.h>
-#import <NMapsMap/NMFMapViewOptionDelegate.h>
-#import <NMapsMap/NMFMapViewCameraDelegate.h>
 
 #import "RCTConvert+NMFMapView.h"
 
-@interface RNNaverMapView : NMFNaverMapView <NMFMapViewCameraDelegate, NMFMapViewOptionDelegate, NMFMapViewTouchDelegate>
+@interface RNNaverMapView : NMFNaverMapView <NMFMapViewDelegate>
 
 @property (nonatomic, weak) RCTBridge *bridge;
 @property (nonatomic, copy) RCTDirectEventBlock onInitialized;
