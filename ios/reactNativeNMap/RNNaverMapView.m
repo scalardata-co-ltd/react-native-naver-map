@@ -41,8 +41,7 @@
 
   double zoom = 14.5;
 
-  NMGLatLng* target = [NMGLatLng latLngWithLat:prev.target.lat lng:prev.target.lng];
-  NMFCameraPosition* cameraPosition = [NMFCameraPosition cameraPosition:target zoom:zoom];
+  NMFCameraPosition* cameraPosition = [NMFCameraPosition cameraPosition:prev.target zoom:zoom];
   NMFCameraUpdate* cameraUpdate = [NMFCameraUpdate cameraUpdateWithPosition:cameraPosition];
 
   [self.mapView moveCamera:cameraUpdate];
