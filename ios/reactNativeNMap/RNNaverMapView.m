@@ -39,11 +39,9 @@
 
   NMFCameraPosition *prev = self.mapView.cameraPosition;
 
-  double latitude = prev.target.lat;
-  double longitude = prev.target.lng;
   double zoom = 14.5;
 
-  NMGLatLng* target = [NMGLatLng latLngWithLat:latitude lng:longitude];
+  NMGLatLng* target = [NMGLatLng latLngWithLat:prev.target.lat lng:prev.target.lng];
   NMFCameraPosition* cameraPosition = [NMFCameraPosition cameraPosition:target zoom:zoom];
   NMFCameraUpdate* cameraUpdate = [NMFCameraUpdate cameraUpdateWithPosition:cameraPosition];
 
