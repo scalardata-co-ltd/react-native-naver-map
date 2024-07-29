@@ -29,21 +29,12 @@
 @implementation RNNaverMapView
 {
   NSMutableArray<UIView *> *_reactSubviews;
-  BOOL _initialCameraSet;
 }
 
 - (nonnull instancetype)initWithFrame:(CGRect)frame
 {
   if ((self = [super initWithFrame:frame])) {
     _reactSubviews = [NSMutableArray new];
-  }
-  _initialCameraSet = NO;
-
-  return self;
-}
-- (void)applyPendingCameraIfNeeded {
-  if (_initialCameraSet || self.mapView.frame.size.width <= 0 || self.mapView.frame.size.height <= 0) {
-    return;
   }
 
   NMFCameraPosition *prev = self.mapView.cameraPosition;
@@ -57,17 +48,8 @@
   NMFCameraUpdate* cameraUpdate = [NMFCameraUpdate cameraUpdateWithPosition:cameraPosition];
 
   [self.mapView moveCamera:cameraUpdate];
-  _initialCameraSet = YES;
 
-}
-
-- (void)debounceApplyPendingCamera {
-    [self.debounceTimer invalidate];
-    self.debounceTimer = [NSTimer scheduledTimerWithTimeInterval:0.3
-                                                          target:self
-                                                        selector:@selector(applyPendingCameraIfNeeded)
-                                                        userInfo:nil
-                                                         repeats:NO];
+  return self;
 }
 
 - (void)insertReactSubview:(id<RCTComponent>)subview atIndex:(NSInteger)atIndex {
@@ -129,17 +111,14 @@
 }
 
 - (void)mapViewIdle:(nonnull NMFMapView *)mapView {
-    [self debounceApplyPendingCamera];
-
-    if (((RNNaverMapView*)self).onCameraChange != nil) {
-        ((RNNaverMapView*)self).onCameraChange(@{
-            @"latitude"      : @(mapView.cameraPosition.target.lat),
-            @"longitude"     : @(mapView.cameraPosition.target.lng),
-            @"zoom"          : @(mapView.cameraPosition.zoom),
-            @"contentRegion" : pointsToJson(mapView.contentRegion.exteriorRing.points),
-            @"coveringRegion": pointsToJson(mapView.coveringRegion.exteriorRing.points),
-        });
-    }
+  if (((RNNaverMapView*)self).onCameraChange != nil)
+    ((RNNaverMapView*)self).onCameraChange(@{
+      @"latitude"      : @(mapView.cameraPosition.target.lat),
+      @"longitude"     : @(mapView.cameraPosition.target.lng),
+      @"zoom"          : @(mapView.cameraPosition.zoom),
+      @"contentRegion" : pointsToJson(mapView.contentRegion.exteriorRing.points),
+      @"coveringRegion": pointsToJson(mapView.coveringRegion.exteriorRing.points),
+    });
 }
 
 static NSArray* pointsToJson(NSArray<NMGLatLng*> *points) {
@@ -166,10 +145,6 @@ static NSDictionary* toJson(NMGLatLng * _Nonnull latlng) {
     });
 }
 
-- (void)dealloc {
-    [self.debounceTimer invalidate];
-}
-
 - (void)mapView:(nonnull NMFMapView *)mapView regionWillChangeAnimated:(BOOL)animated byReason:(NSInteger)reason {
   if (((RNNaverMapView*)self).onMove != nil)
     ((RNNaverMapView*)self).onMove(@{
@@ -183,9 +158,10 @@ static NSDictionary* toJson(NMGLatLng * _Nonnull latlng) {
     int num = [[[NSNumber alloc] initWithInt:mapView.positionMode] intValue];
 
     if (((RNNaverMapView*)self).onChangeLocationTrackingMode != nil)
-        ((RNNaverMapView*)self).onChangeLocationTrackingMode(@{
-            @"positionMode"        : @(num),
-        });
+      ((RNNaverMapView*)self).onChangeLocationTrackingMode(@{
+        @"positionMode"        : @(num),
+      });
 }
+
 
 @end
